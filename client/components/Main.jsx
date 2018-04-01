@@ -1,20 +1,55 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar.jsx';
 import Critters from './Critters.jsx';
+import axios from 'axios';
 
 /*
 
-  Main.jsx is our main parent component for our app. For this tiny application, we will keep all our our state in Main.jsx. Our state should keep track of whether we are wanting to see our dog, cat, or snake critters and the critter data itself!
+  Main.jsx is our main parent component for our app. 
+  For this tiny application, we will keep all our our state in Main.jsx. 
+  Our state should keep track of whether we are wanting to see our 
+  dog, cat, or snake critters and the critter data itself!
 
-  Our Navbar component has our buttons that will control whether we are viewing dogs, cats, or snakes, and also a button to clear all the critters.
+  Our Navbar component has our buttons that will control 
+  whether we are viewing dogs, cats, or snakes, and also 
+  a button to clear all the critters.
 
-  The Critters component should take critters as a prop and then render out the list of critters.
+  The Critters component should take critters 
+  as a prop and then render out the list of critters.
 
-  Take a stab at building out this app! If you need additional direction, see the step by step guide at the bottom of this file.
+  Take a stab at building out this app! 
+  If you need additional direction, see the step 
+  by step guide at the bottom of this file.
 
 */
 
 export default class Main extends Component {
+  constructor() {
+    super();
+    this.state = {
+      animalsData: [],
+      selected: ''
+    }
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClear = this.handleClear.bind(this);
+  }
+
+  handleClick (event) {
+    const requestedAnimal = event.target.id;
+    axios(`/api/${requestedAnimal}`)
+      .then( res => res.data)
+      .then(animalsData =>
+        this.setState({
+          animalsData
+        })
+      )
+  }
+
+  handleClear () {
+    this.setState({
+      animalsData: []
+    })
+  }
 
   render() {
     return (
@@ -22,8 +57,8 @@ export default class Main extends Component {
         <div id="header">
           <h1>Gallery of Cute</h1>
         </div>
-        <Navbar />
-        <Critters />
+        <Navbar handleClick={this.handleClick} handleClear={this.handleClear}/>
+        <Critters data={this.state.animalsData}/>
       </div>
     )
   }

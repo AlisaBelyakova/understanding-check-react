@@ -1,11 +1,16 @@
 import React from 'react';
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <div id="nav">
-      <button id="dogs">Dogs</button>
-      <button id="cats">Cats</button>
-      <button id="dragons">Dragons</button>
+      <button id="dogs" 
+        onClick={props.handleClick}>Dogs</button>
+      <button id="cats" 
+        onClick={props.handleClick}>Cats</button>
+      <button id="dragons" 
+        onClick={props.handleClick}>Dragons</button>
+      <button id="clear" 
+        onClick={props.handleClear}>Clear</button>
     </div>
   )
 }
